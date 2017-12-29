@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+        <!--标签顺序(properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,objectWrapperFactory?,plugins?,environments?,mappers?)"-->
+<configuration>
+    <properties resource="jdbc.properties"></properties>
+
+    <!--<typeAliases>-->
+        <!--<typeAlias alias="User" type="com.lty.freamwork.pojo.User"/>-->
+    <!--</typeAliases>-->
+    <!--定义别名-->
+    <typeAliases>
+        <package name="com.lty.freamwork.pojo"></package>
+    </typeAliases>
+    <!--批量定义别名-->
+        <environments default="development">
+            <environment id="development">
+                <transactionManager type="JDBC"/>
+                <dataSource type="POOLED">
+                    <property name="driver" value="${jdbc.driverClassName}"/>
+                    <property name="url" value="${jdbc.url}"/>
+                    <property name="username" value="${jdbc.username}"/>
+                    <property name="password" value="${jdbc.password}"/>
+                </dataSource>
+            </environment>
+        </environments>
+
+    <mappers>
+        <mapper resource="mapper/UserMapper.xml"></mapper>
+        <package name="com.lty.freamwork.pojo"></package>
+    </mappers>
+
+</configuration>

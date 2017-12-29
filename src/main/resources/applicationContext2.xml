@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--经典的基于代理的AOP-->
+
+    <!--配置目标对象-->
+    <bean id="user" class="com.lty.freamwork.pojo.User"></bean>
+    <!--配置通知-->
+    <bean id="eatHelper" class="com.lty.freamwork.pojo.EatHelper"></bean>
+    <!--配置切点-->
+    <bean id="eatPointCut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+        <property name="pattern" value=".*eat"></property>
+    </bean>
+    <!--配置切面（切面=切点+通知）-->
+    <bean id="eatAdvice" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="eatHelper"></property>
+        <property name="pointcut" ref="eatPointCut"></property>
+    </bean>
+
+    <!--配置代理对象-->
+    <!--<bean id="userProxy" class="org.springframework.aop.framework.ProxyFactoryBean">-->
+    <!--<property name="target" ref="user"></property>-->
+    <!--<property name="proxyInterfaces" value="com.lty.freamwork.pojo.Eatable"></property>-->
+    <!--<property name="interceptorNames" value="eatAdvice"></property>-->
+    <!--</bean>-->
+
+    <!--自动代理，有这个就不用配置代理对象了，但任何匹配Advisor的bean都会被自动代理，要慎用！-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+    <!--<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true" />-->
+
+</beans>

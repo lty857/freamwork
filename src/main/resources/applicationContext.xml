@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+     <!--注入bean对象,id为标识名称,class为bean的路径-->
+    <bean id="Orders" class="com.lty.freamwork.pojo.Orders" autowire="byName" ></bean>
+    <bean class="com.lty.freamwork.pojo.User">
+        <property name="id">
+            <value>3</value>
+        </property>
+        <property name="username">
+            <value>oidjsf</value>
+        </property>
+        <property name="password">
+            <value>dfew</value>
+        </property>
+    </bean>
+
+    <bean id="queryUserVo" class="com.lty.freamwork.pojo.QueryUserVo">
+        <property name="list">
+            <list>
+                <value>1</value>
+                <value>1</value>
+                <value>2</value>
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

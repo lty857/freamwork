@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+    <mapper namespace="com.lty.freamwork.dao.UserMapper">
+        <select id="findUserById" parameterType="int" resultType="User">
+            SELECT * FROM USER
+            <where>
+            <if test="id!=null and id!=''">
+            AND id=#{id};
+            </if>
+            </where>
+        </select>
+
+
+        <insert id="insertUser" parameterType="User" >
+              INSERT INTO USER(username,password) VALUES (#{username},#{password})
+            <selectKey keyProperty="id" resultType="int" order="AFTER">
+                SELECT LAST_INSERT_ID();
+            </selectKey>
+        </insert>
+
+        <!--<select id="findUserByPojo" parameterType="User" resultType="User">-->
+            <!--SELECT * FROM  USER-->
+            <!--<where>-->
+                <!--<if test="id!=null and id !=''">-->
+                    <!--AND id=#{id}-->
+                <!--</if>-->
+                <!--<if test="username!=null and username!=''">-->
+                    <!--AND username=#{username}-->
+                <!--</if>-->
+            <!--</where>-->
+        <!--</select>-->
+
+        <select id="findUserByHashMap" parameterType="HashMap" resultType="User">
+            SELECT * FROM USER WHERE id=#{id} AND username=#{username}
+        </select>
+
+    <select id="findUserByPojo" parameterType="com.lty.freamwork.pojo.QueryUserVo" resultType="User">
+        SELECT * FROM USER WHERE id= #{userCostom.id}
+
+    </select>
+
+    <select id="findUserByPojoList" parameterType="com.lty.freamwork.pojo.QueryUserVo" resultType="User">
+            SELECT * FROM USER
+            <where>
+            <foreach collection="list" item="id" open="and id in(" separator="," close=")">
+                #{id}
+            </foreach>
+            </where>
+    </select>
+
+    <resultMap id="userordermap" type="Orders">
+        <id column="id" property="id"></id>
+        <result property="orderstatus" column="orderstatus"></result>
+        <result property="user_id" column="user_id"></result>
+        <association property="user" javaType="User">
+            <id property="id" column="id"></id>
+            <result property="username" column="username"></result>
+            <result property="password" column="password"></result>
+        </association>
+
+    </resultMap>
+    <select id="findOrdersList" resultMap="userordermap">
+    SELECT orders.*,username,password from orders,user where user.id=orders.user_id
+    </select>
+
+
+    </mapper>
